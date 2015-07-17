@@ -37,6 +37,10 @@ def main():
         print("This must be run as root, aborting")
         return -1
 
+    # clean up any stale pid files
+    if os.path.exists("/run/squid.pid"):
+        os.remove("/run/squid.pid")
+
     max_object_size = os.getenv("MAXIMUM_CACHE_OBJECT", '1024')
     disk_cache_size = os.getenv("DISK_CACHE_SIZE", '5000')
     squid_directives_only = os.getenv("SQUID_DIRECTIVES_ONLY", False)
