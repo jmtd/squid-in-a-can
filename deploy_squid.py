@@ -48,12 +48,15 @@ def main():
     squid_conf_entries.append('cache_dir ufs /var/cache/squid %s 16 256' %
                               disk_cache_size)
 
-    write_mode = 'w' if squid_directives_only else 'a'
-    with open("/etc/squid/squid.conf", write_mode) as conf_fh:
-        for conf in squid_conf_entries:
-            if not squid_directives_only:
+    with open("/etc/squid/squid.conf", 'w') as conf_fh:
+
+        if not squid_directives_only:
+            with open("/etc/squid/squid.conf.in", "r") as preconf:
+                conf_fh.write(preconf.read())
+            for conf in squid_conf_entries:
                 print("Appending to squid.conf: [%s]" % conf)
                 conf_fh.write(conf + '\n')
+
         if arbitrary_squid_directives:
             print("Appending squid directives to squid.conf")
             print(arbitrary_squid_directives)
