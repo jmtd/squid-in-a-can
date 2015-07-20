@@ -74,17 +74,8 @@ def main():
     # wait for the above non-blockin call to finish setting up the directories
     time.sleep(5)
 
-    # Start the squid instance as a subprocess
-    squid_in_a_can = subprocess.Popen(squid_cmd, shell=True)
-
-    # While the process is running wait for squid to be running
-    print("Waiting for squid to finish")
-    while squid_in_a_can.poll() is None:
-        time.sleep(1)
-
-    print("Squid process exited with return code %s" %
-          squid_in_a_can.returncode)
-    return squid_in_a_can.returncode
+    # Start the squid instance
+    os.execlp('squid', 'squid', '-N')
 
 if __name__ == '__main__':
     sys.exit(main())
