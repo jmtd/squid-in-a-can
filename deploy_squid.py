@@ -41,6 +41,9 @@ def main():
     if os.path.exists("/run/squid.pid"):
         os.remove("/run/squid.pid")
 
+    # hack for https://bugzilla.redhat.com/show_bug.cgi?id=1246167
+    os.chmod('/etc/resolv.conf', 0644)
+
     max_object_size = os.getenv("MAXIMUM_CACHE_OBJECT", '1024')
     disk_cache_size = os.getenv("DISK_CACHE_SIZE", '5000')
     squid_directives_only = os.getenv("SQUID_DIRECTIVES_ONLY", False)
